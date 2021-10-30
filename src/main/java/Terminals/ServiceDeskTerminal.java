@@ -3,22 +3,26 @@ package Terminals;
 import Components.Restaurant;
 import Components.SeatingSystem;
 import Components.ServingQueue;
-import Entities.*;
-import Terminals.KitchenTerminal;
-import Terminals.CustomerTerminal;
+import Entities.Dish;
+import Entities.Serving;
+import Entities.SingleTable;
+import Entities.TerminalPrintType;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceDeskTerminal extends Terminal{
 
     private List<SingleTable> tables;
+    private String tableVar = "Table ";
 
     public ServiceDeskTerminal(){
         super();
         tables = new ArrayList<SingleTable>();
     }
 
-    public KitchenTerminal grandOpening(String restaurantName, String tableConfigPath, String menuFilePath){
+    public KitchenTerminal grandOpening(String restaurantName,
+                                        String tableConfigPath, String menuFilePath){
         Restaurant.getOrCreateInstance(
                 restaurantName,
                 tableConfigPath,
@@ -40,20 +44,22 @@ public class ServiceDeskTerminal extends Terminal{
         Restaurant re = Restaurant.getInstance();
         SeatingSystem ss = re.getSeatingSystem();
         SingleTable table = ss.getAvailableTable(numberOfPeople);
+        CustomerTerminal customerTerminalVal = null;
         if(table != null){
 
             if(ss.occupy(table)){
                 tables.add(table);
-                printToScreen("New table " + table.getIndex() +" checked in, number of people: " + numberOfPeople);
-                return new CustomerTerminal(table);
+                printToScreen(tableVar + table.getIndex()
+                        + " checked in, number of people: " + numberOfPeople);
+                customerTerminalVal = new CustomerTerminal(table);
             }else{
-                printToScreen("Table " + table.getIndex() +" occupied. Check in failed.", TerminalPrintType.Error);
-                return null;
+                printToScreen(tableVar + table.getIndex()
+                        + " occupied. Check in failed.", TerminalPrintType.Error);
             }
         }else{
             printToScreen("Not enough seat", TerminalPrintType.Error);
-            return null;
         }
+        return customerTerminalVal;
     }
 
     public void checkOut(SingleTable table){
@@ -63,19 +69,18 @@ public class ServiceDeskTerminal extends Terminal{
 
             if(ss.vacate(table)){
                 tables.remove(table);
-                printToScreen( "Table "+table.getIndex()+" checked out.");
-            }else
-                printToScreen("Vacating table " +table.getIndex()+ " failed.", TerminalPrintType.Error);
-
-
-        }else{
-
+                printToScreen( tableVar+table.getIndex()+" checked out.");
+            }else {
+                printToScreen("Vacating table "
+                        + table.getIndex() + " failed.", TerminalPrintType.Error);
+            }
         }
     }
 
     public void serveDish(){
         ServingQueue sq = ServingQueue.getInstance();
-        Serving serving = sq.take();Dish dish = serving.getDish();
+        Serving serving = sq.take();
+        Dish dish = serving.getDish();
         SingleTable table = serving.getToTable();
         table.addDish(dish);
         printToScreen(dish.getMenuItem().getDishName()+ " served to table " + table.getIndex());

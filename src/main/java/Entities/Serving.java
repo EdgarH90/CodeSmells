@@ -1,7 +1,5 @@
 package Entities;
 
-import Entities.SingleTable;
-import Entities.Dish;
 
 public class Serving {
 

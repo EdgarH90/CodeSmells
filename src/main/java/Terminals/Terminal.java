@@ -2,7 +2,7 @@ package Terminals;
 
 import Entities.Message;
 import Entities.TerminalPrintType;
-import Terminals.MessageQueue;
+
 
 public abstract class Terminal {
 

@@ -1,6 +1,5 @@
 package Entities;
 
-import Entities.MenuItem;
 
 public class Dish {
     MenuItem menuItem;

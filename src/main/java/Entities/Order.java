@@ -1,7 +1,5 @@
 package Entities;
 
-import Entities.SingleTable;
-import Entities.MenuItem;
 
 public class Order {
 
@@ -9,7 +7,8 @@ public class Order {
     private MenuItem orderedItem;
 
     public Order(SingleTable fromTable, MenuItem orderedItem) {
-        this.fromTable = fromTable;this.orderedItem = orderedItem;
+        this.fromTable = fromTable;
+        this.orderedItem = orderedItem;
     }
 
     public MenuItem getOrderedItem() {

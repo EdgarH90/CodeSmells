@@ -4,6 +4,7 @@ public class Restaurant {
 
     private String restaurantName;
     private static Restaurant instance;
+    private final static int INST_NUM = 10;
 
     public SeatingSystem getSeatingSystem() {
         return seatingSystem;
@@ -23,8 +24,8 @@ public class Restaurant {
         this.restaurantName = restaurantName;
         this.seatingSystem = new SeatingSystem(tableConfigFilePath);
         this.menu = new Menu(menuConfigFilePath);
-        OrderQueue.getOrCreateInstance(10);
-        ServingQueue.getOrCreateInstance(10);
+        OrderQueue.getOrCreateInstance(INST_NUM);
+        ServingQueue.getOrCreateInstance(INST_NUM);
     }
 
     public static Restaurant getInstance() {

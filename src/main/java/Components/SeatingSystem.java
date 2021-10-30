@@ -3,7 +3,9 @@ package Components;
 import Loaders.TableFileLoader;
 import Entities.SingleTable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SeatingSystem {
 
@@ -19,9 +21,9 @@ public class SeatingSystem {
         TableFileLoader loader = new TableFileLoader(tableConfigFilePath);
         List<SingleTable> tableList = loader.load();
         tables = new HashMap<SingleTable,Boolean>();
-        for (SingleTable i : tableList)
+        for (SingleTable i : tableList) {
             tables.put(i, false);
-
+        }
     }
 
     public int[] getNumberOfSeatsForAllTable(){
@@ -47,7 +49,9 @@ public class SeatingSystem {
     public SingleTable getAvailableTable(int numberOfPeople){
         SingleTable result = null;
         for( Map.Entry<SingleTable, Boolean> entry : tables.entrySet()){
-            if(!entry.getValue() && entry.getKey().getNumberOfSeats() >= numberOfPeople && (result == null || entry.getKey().getNumberOfSeats() < result.getNumberOfSeats())){
+            if(!entry.getValue() && entry.getKey().getNumberOfSeats() >= numberOfPeople
+                    && (result == null
+                            || entry.getKey().getNumberOfSeats() < result.getNumberOfSeats())){
                 result = entry.getKey();
             }
         }
@@ -55,21 +59,25 @@ public class SeatingSystem {
     }
 
     public boolean occupy(SingleTable table){
+        boolean occupyVal;
         if(tables.get(table)){
-            return false;
+            occupyVal = false;
         }else{
             tables.put(table, true);
-            return true;
+            occupyVal = true;
         }
+        return occupyVal;
     }
 
     public boolean vacate(SingleTable table){
+        boolean vacateVal;
         if(!tables.get(table)){
-            return false;
+            vacateVal = false;
         }else{
             tables.put(table,false);
-            return true;
+            vacateVal = true;
         }
+        return vacateVal;
     }
 
 

@@ -6,9 +6,6 @@ import Entities.Dish;
 import Entities.Order;
 import Entities.SingleTable;
 
-import Terminals.KitchenTerminal;
-import Terminals.CustomerTerminal;
-import Terminals.ServiceDeskTerminal;
 
 public class CustomerTerminal extends Terminal{
 
@@ -54,8 +51,9 @@ public class CustomerTerminal extends Terminal{
             result = result + i;
             result = result + ": ";
             result = result + dishes[i].getMenuItem().getDishName();
-            if(i!=dishes.length-1)
-            result = result + ", ";
+            if(i!=dishes.length-1) {
+                result = result + ", ";
+            }
         }
         return result;
     }
